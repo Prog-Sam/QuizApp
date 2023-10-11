@@ -3,16 +3,16 @@ import { View, Image, Text, SafeAreaView, ImageBackground, StyleSheet } from 're
 import colors from '../config/colors';
 import Button from '../components/Button';
 
-const WelcomeScreen = () => {
+const WelcomeScreen = ({ navigation }) => {
     return (
         <ImageBackground blurRadius={10} style={styles.background} source={require('../assets/background.jpg')}>
             <View style={styles.logoContainer}>
                 <Image style={styles.logo} source={require('../assets/logo-red.png')}/>
-                <Text style={styles.tagline}>Sell What You Don't Need</Text>
+                <Text style={styles.tagline}>We Need Answers!</Text>
             </View>
             <View style={styles.buttonsContainer}>
-                <Button title='Login' onPress={() => console.log('Logged In')} />
-                <Button title='Register' color='secondary' onPress={() => console.log('Registered')} />
+                <Button title='Login' onPress={() => navigation.navigate('Login')} />
+                <Button title='Register' color='secondary' onPress={() => navigation.navigate('Register')} />
             </View>
         </ImageBackground>
     );

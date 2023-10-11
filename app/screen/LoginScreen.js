@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 
 import Screen from '../components/Screen';
 import {Form, FormField, SubmitButton} from '../components/forms'
+import { login } from '../service/FakeAuthService';
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().required().email().label('Email'),
@@ -11,6 +12,11 @@ const validationSchema = Yup.object().shape({
 });
 
 function LoginScreen(props) {
+
+    const handleSubmit = (values) => {
+        // console.log(values);
+        console.log(login(values));
+    }
 
     return (
         <Screen style={styles.container}>
@@ -21,7 +27,7 @@ function LoginScreen(props) {
 
             <Form
                 initialValues={{email: '', password: ''}}
-                onSubmit={values => console.log(values)}
+                onSubmit={values => handleSubmit(values)}
                 validationSchema={validationSchema}
             >
                 <FormField
