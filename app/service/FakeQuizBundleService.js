@@ -3,22 +3,24 @@ import _ from 'lodash';
 const fakeDb = [
     {
         id: 1,
+        title: 'Test 1',
         preQuizId: 1,
-        email: 'Some Video URL',
+        url: 'Some Video URL',
         postQuizId: 2
     },{
         id: 2,
+        title: 'Test 2',
         preQuizId: 3,
-        email: 'Some Video URL',
+        url: 'Some Video URL',
         postQuizId: 4
     },
 ]
 
-export function getQuizBundless(){
+export function getQuizBundles(){
     return fakeDb;
 }
 
-export function getQuizBundles(id){
+export function getQuizBundle(id){
     return _.find(fakeDb, item => item.id == id);
 }
 
