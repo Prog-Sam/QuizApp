@@ -22,22 +22,22 @@ const fakeDb = [
     }
 ]
 
-export function getTests(){
+export function getUserAnswers(){
     return fakeDb;
 }
 
-export function getTest(id){
+export function getUserAnswer(id){
     return _.find(fakeDb, item => item.id == id);
 }
 
-export function saveTest(item){
+export function saveUserAnswer(item){
     const newId = fakeDb[fakeDb.length-1] + 1;
 
-    let localTest = {...item, id: newId}
-    fakeDb.push(localTest)
+    let localUserAnswer = {...item, id: newId}
+    fakeDb.push(localUserAnswer)
     return(fakeDb);
 }
 
-export function deleteTest(id){
+export function deleteUserAnswer(id){
     return fakeDb.filter(item => item.id != id)
 }
