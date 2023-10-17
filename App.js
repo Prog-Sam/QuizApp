@@ -8,12 +8,15 @@ import MessagesScreen from './app/screen/MessagesScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import AuthNavigator from './app/navigation/AuthNavigator';
 import RegisterScreen from './app/screen/RegisterScreen';
+import AppNavigator from './app/navigation/AppNavigator';
+import NavigationTheme from './app/navigation/NavigationTheme';
 
 export default function App() {
   return (
     <GestureHandlerRootView style={styles.container}>
-      <NavigationContainer>
+      <NavigationContainer theme={NavigationTheme}>
         <AuthNavigator />
+        {/* <AppNavigator /> */}
       </NavigationContainer>
     </GestureHandlerRootView>
   );
