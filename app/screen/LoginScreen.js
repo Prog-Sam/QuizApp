@@ -21,7 +21,7 @@ function LoginScreen(props) {
     return (
         <Screen style={styles.container}>
             <Image 
-                source={require('../assets/logo-red.png')}
+                source={require('../assets/app_logo_black.png')}
                 style={styles.logo} 
             />
 
@@ -57,8 +57,8 @@ const styles = StyleSheet.create({
         padding: 10
     },
     logo: {
-        width: 80,
-        height: 80,
+        width: 160,
+        height: 160,
         alignSelf: 'center',
         marginTop: 50,
         marginBottom: 20

@@ -5,10 +5,10 @@ import Button from '../components/Button';
 
 const WelcomeScreen = ({ navigation }) => {
     return (
-        <ImageBackground blurRadius={10} style={styles.background} source={require('../assets/background.jpg')}>
+        <ImageBackground blurRadius={10} style={styles.background} source={require('../assets/starry.jpg')}>
             <View style={styles.logoContainer}>
-                <Image style={styles.logo} source={require('../assets/logo-red.png')}/>
-                <Text style={styles.tagline}>We Need Answers!</Text>
+                <Image style={styles.logo} source={require('../assets/app_logo_transparent.png')}/>
+                <Text style={styles.tagline}>Searching Answers</Text>
             </View>
             <View style={styles.buttonsContainer}>
                 <Button title='Login' onPress={() => navigation.navigate('Login')} />
@@ -27,15 +27,15 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     logo: {
-        height: 100,
-        width: 100
+        height: 300,
+        width: 300
     },
     logoContainer: {
         height: '100%',
         width: '100%',
         position: 'absolute',
         alignItems: 'center',
-        top: 70
+        top: 70,
     },
     registerButton: {
         backgroundColor: colors.secondary,
@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
     tagline: {
         fontSize: 25,
         fontWeight: '600',
-        paddingVertical: 20
+        paddingVertical: 20,
+        color: 'white'
     }
 })
  
