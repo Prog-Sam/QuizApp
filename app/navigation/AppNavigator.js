@@ -8,27 +8,31 @@ import AccountScreen from '../screen/AccountScreen';
 import FeedNavigator from './FeedNavigator';
 import AccountNavigator from './AccountNavigator';
 
+import routes from './routes';
+import Dashboard from '../screen/Dashboard';
+import Quizes from '../screen/Quizes';
+
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => (
     <Tab.Navigator>
         <Tab.Screen 
-            name='Feed' 
-            component={FeedNavigator}
+            name={routes.DASHBOARD} 
+            component={Dashboard}
             options={{
-                tabBarIcon: ({color, size}) => <MaterialCommunityIcons name='home' color={color} size={size} />
+                tabBarIcon: ({color, size}) => <MaterialCommunityIcons name='newspaper-variant-outline' color={color} size={size} />
             }}
         />
         <Tab.Screen     
-            name='ListingEdit' 
-            component={ListingEditScreen} 
+            name={routes.QUIZES} 
+            component={Quizes} 
             options={{
-                tabBarIcon: ({color, size}) => <MaterialCommunityIcons name='plus-circle' color={color} size={size} />
+                tabBarIcon: ({color, size}) => <MaterialCommunityIcons name='play-circle' color={color} size={size} />
             }}
         />
         <Tab.Screen 
             name='Account' 
-            component={AccountNavigator} 
+            component={AccountScreen} 
             options={{
                 tabBarIcon: ({color, size}) => <MaterialCommunityIcons name='account' color={color} size={size} />
             }}
