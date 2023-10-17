@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { getQuiz } from './FakeQuizService';
 
 const fakeDb = [
     {
@@ -16,7 +17,9 @@ const fakeDb = [
     },
 ]
 
-export function getQuizBundles(){
+export function getQuizBundles({includeQuizes=false}){
+    let localQuizBundles = [...fakeDb]
+    if(includeQuizes) return localQuizBundles.map((item) => ({...item, PreQuiz: getQuiz(item.preQuizId), PostQuiz: getQuiz(item.postQuizId)}))
     return fakeDb;
 }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, View} from 'react-native';
+import { FlatList, StyleSheet, View, Alert} from 'react-native';
 
 import Screen from '../components/Screen';
 import ListItem from '../components/lists/ListItem';
@@ -28,14 +28,22 @@ function MessagesScreen(props) {
     const [refreshing, setRefreshing] = useState(false);
 
     const populateQuizes = () =>  {
-        setQuizes(getQuizBundles)
+        setQuizes(getQuizBundles({includeQuizes:true}))
     }
 
     useEffect(() => {
         populateQuizes();
     },[])
 
+    const handlePress = (item) => {
+         Alert.alert('Confirmation', 'Are you ready to take this quiz?', [
+            {text: 'Yes', onPress: () => console.log(item)},
+            {text: 'No'}
+    ])
+}
     return (
+
+
         <Screen>
                 <FlatList 
                     data={quizes}
@@ -43,12 +51,12 @@ function MessagesScreen(props) {
                     renderItem={({item}) => (
                         <ListItem 
                             title={item.title}
-                            subTitle={item.description}
+                            subTitle={`Difficulty Level: ${item.PreQuiz.difficulty} => ${item.PostQuiz.difficulty}`}
                             IconComponent={<Icon 
                                 name='book' 
                                 iconColor={colors.white} 
                                 backgroundColor={colors.secondary}/>} 
-                            onPress={() => console.log('Quiz Selected', item)}
+                            onPress={() => handlePress(item)}
                         />
                     )}
                     ItemSeparatorComponent={ListItemSeparator}
