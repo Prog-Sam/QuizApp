@@ -6,6 +6,7 @@ import ListItem from '../components/lists/ListItem';
 import colors from '../config/colors';
 import Icon from '../components/Icon';
 import ListItemSeparator from '../components/lists/ListItemSeparator';
+import useAuth from '../auth/useAuth';
 
 const menuItems = [
     {
@@ -26,6 +27,7 @@ const menuItems = [
 ]
 
 function AccountScreen({navigation}) {
+    const {logOut} = useAuth();
     return (
         <Screen style={styles.screen}>
             <View style={styles.container}>
@@ -58,6 +60,7 @@ function AccountScreen({navigation}) {
                 IconComponent={
                     <Icon name='logout' backgroundColor='#ffe66d' />
                 }
+                onPress={() => logOut()}
             />
         </Screen>
     );
