@@ -1,4 +1,7 @@
 import _ from 'lodash';
+import { getUser } from './FakeUserService';
+import { getQuizSession } from './FakeQuizSession';
+import { getItem } from './FakeItemService';
 
 const fakeDb = [
     {
@@ -22,8 +25,22 @@ const fakeDb = [
     }
 ]
 
-export function getUserAnswers(){
-    return fakeDb;
+export function getUserAnswers({quizSessionId, userId, itemId, includeUser, includeQuizSession, includeItem}){
+    let localItems = [...fakeDb];
+    if(quizSessionId)
+        localItems = localItems.filter((item) => quizSessionId == item.quizSessionId);
+    if(userId)
+        localItems = localItems.filter((item) => userId == item.userId);
+    if(itemId)
+        localItems = localItems.filter((item) => itemId == item.itemId);
+    if(includeUser)
+        localItems = localItems.map((item) => ({...item, User: getUser(item.userId)}))
+    if(includeQuizSession)
+        localItems = localItems.map((item) => ({...item, QuizSession: getQuizSession(item.quizSessionId)}))
+    if(includeItem)
+        localItems = localItems.map((item) => ({...item, Item: getItem(item.itemId)}))
+
+    return localItems;
 }
 
 export function getUserAnswer(id){
