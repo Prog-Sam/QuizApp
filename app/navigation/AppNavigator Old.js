@@ -2,32 +2,33 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {MaterialCommunityIcons} from '@expo/vector-icons'
 
+import ListingsScreen from '../screen/ListingsScreen';
+import ListingEditScreen from '../screen/ListingEditScreen';
 import AccountScreen from '../screen/AccountScreen';
-import routes from './routes';
-import DashboardScreen from '../screen/DashboardScreen';
-import QuizesScreen from '../screen/QuizesScreen';
+import FeedNavigator from './FeedNavigator';
+import AccountNavigator from './AccountNavigator';
 
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => (
     <Tab.Navigator>
         <Tab.Screen 
-            name={routes.DASHBOARD} 
-            component={DashboardScreen}
+            name='Feed' 
+            component={FeedNavigator}
             options={{
-                tabBarIcon: ({color, size}) => <MaterialCommunityIcons name='newspaper-variant-outline' color={color} size={size} />
+                tabBarIcon: ({color, size}) => <MaterialCommunityIcons name='home' color={color} size={size} />
             }}
         />
         <Tab.Screen     
-            name={routes.QUIZES} 
-            component={QuizesScreen} 
+            name='ListingEdit' 
+            component={ListingEditScreen} 
             options={{
-                tabBarIcon: ({color, size}) => <MaterialCommunityIcons name='play-circle' color={color} size={size} />
+                tabBarIcon: ({color, size}) => <MaterialCommunityIcons name='plus-circle' color={color} size={size} />
             }}
         />
         <Tab.Screen 
             name='Account' 
-            component={AccountScreen} 
+            component={AccountNavigator} 
             options={{
                 tabBarIcon: ({color, size}) => <MaterialCommunityIcons name='account' color={color} size={size} />
             }}
