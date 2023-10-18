@@ -23,7 +23,7 @@ import colors from '../config/colors';
 //     }
 // ]
 
-function MessagesScreen(props) {
+function QuizesScreen(props) {
     const [quizes, setQuizes] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
 
@@ -75,4 +75,4 @@ const styles = StyleSheet.create({
     
 })
 
-export default MessagesScreen;
+export default QuizesScreen;
