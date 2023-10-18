@@ -4,11 +4,13 @@ const fakeDb = [
     {
         id: 1,
         userId: 3,
-        quizId: 1,
+        quizBundleId: 1,
+        iat: date.Now()
     },
 ]
 
-export function getQuizSessions(){
+export function getQuizSessions({userId, quizId, includeUser, includeQuizBundle}){
+    
     return fakeDb;
 }
 
