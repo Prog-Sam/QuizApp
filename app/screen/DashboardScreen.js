@@ -11,7 +11,7 @@ import routes from '../navigation/routes';
 import useAuth from '../auth/useAuth';
 import Text from '../components/Text';
 
-const menuItems = [
+const results = [
     {
         id: 1,
         quizSessionId: 1,
@@ -29,6 +29,11 @@ const menuItems = [
                 url: 'Some Video URL',
                 postQuizId: 2
             }
+        },
+        User: {
+            id: 3,
+            name: 'firesam',
+            email: 'firesam@gmail.com',
         }
     },
 ]
@@ -48,30 +53,23 @@ function DashboardScreen({navigation}) {
             <View style={styles.container}>
                 <Text style={styles.text}>HISTORY</Text>
                 <FlatList 
-                    data={menuItems}
+                    data={results}
                     keyExtractor={(item) => item.id}
                     renderItem={({item}) => (
                         <ListItem 
                             title={item.QuizSession.QuizBundle.title} 
                             subTitle={`Taken at: ${moment(item.QuizSession.iat).toString()}`}
                             IconComponent={<Icon 
-                                    name='play-circle'
+                                    name='file-check'
                                     backgroundColor={colors.primary}
                                 />
                             } 
-                            onPress={() => navigation.navigate(item.targetScreen)}
+                            onPress={() => navigation.navigate(routes.HISTORY_ITEM, item)}
                         />
                     )}
                     ItemSeparatorComponent={ListItemSeparator}
                 />
             </View>
-            <ListItem 
-                title='Log Out'
-                IconComponent={
-                    <Icon name='logout' backgroundColor='#ffe66d' />
-                }
-                onPress={() => logOut()}
-            />
         </Screen>
     );
 }

@@ -4,8 +4,8 @@ import {MaterialCommunityIcons} from '@expo/vector-icons'
 
 import AccountScreen from '../screen/AccountScreen';
 import routes from './routes';
-import DashboardScreen from '../screen/DashboardScreen';
 import QuizesScreen from '../screen/QuizesScreen';
+import DashboardNavigator from './DashboardNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -13,7 +13,7 @@ const AppNavigator = () => (
     <Tab.Navigator>
         <Tab.Screen 
             name={routes.DASHBOARD} 
-            component={DashboardScreen}
+            component={DashboardNavigator}
             options={{
                 tabBarIcon: ({color, size}) => <MaterialCommunityIcons name='newspaper-variant-outline' color={color} size={size} />
             }}
