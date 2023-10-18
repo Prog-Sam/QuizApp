@@ -30,7 +30,7 @@ function ListItem({
                         <Text style={{...styles.title, color: titleColor}} numberOfLines={1}>{title}</Text>
                         {subTitle && <Text style={{...styles.subTitle, color: subTitleColor}} numberOfLines={1}>{subTitle}</Text>}
                     </View>
-                    <MaterialCommunityIcons style={styles.icon} name='chevron-right' size={25}/>
+                    {renderRightActions && <MaterialCommunityIcons style={styles.icon} name='chevron-right' size={25}/>}
                 </View>
             </TouchableHighlight>
         </Swipeable>
