@@ -40,7 +40,12 @@ const fakeDb = [
     }
 ]
 
-export function getItems(query){
+export function getItems({quizId}){
+    let localItem = [...fakeDb];
+
+    if(quizId)
+        localItem = localItem.filter((item) => item.quizId == quizId)
+
     return _.filter(fakeDb, {...query});
 }
 
