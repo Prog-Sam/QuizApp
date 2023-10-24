@@ -46,7 +46,7 @@ export function getItems({quizId}){
     if(quizId)
         localItem = localItem.filter((item) => item.quizId == quizId)
 
-    return _.filter(fakeDb, {...query});
+    return localItem;
 }
 
 export function getItem(id){

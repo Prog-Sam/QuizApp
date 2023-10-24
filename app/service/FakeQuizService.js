@@ -3,25 +3,21 @@ import _ from 'lodash';
 const fakeDb = [
     {
         id: 1,
-        type: 'pre',
         title: 'title1',
         difficulty: '1'
     },
     {
         id: 2,
-        type: 'post',
         title: 'title2',
         difficulty: '1'
     },
     {
         id: 3,
-        type: 'pre',
         title: 'title3',
         difficulty: '2'
     },
     {
         id: 4,
-        type: 'post',
         title: 'title4',
         difficulty: '3'
     }
