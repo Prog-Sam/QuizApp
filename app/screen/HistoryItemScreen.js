@@ -30,7 +30,7 @@ function HistoryItemScreen({route}) {
                             title={item.title} 
                             subTitle={item.value}
                             IconComponent={<Icon 
-                                    name='play-circle'
+                                    name='disc'
                                     backgroundColor={colors.primary}
                                 />
                             } 
