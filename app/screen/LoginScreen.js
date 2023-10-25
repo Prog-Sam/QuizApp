@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 
 import {Form, FormField, SubmitButton, ErrorMessage} from '../components/forms';
 import authApi from '../api/auth';
+// import authApi from '../api/fakeAuth';
 import useAuth from '../auth/useAuth';
 import Screen from '../components/Screen';;
 
@@ -23,6 +24,14 @@ function LoginScreen(props) {
         setLoginFailed(false);
         logIn(result.data)
     }
+
+    // const handleSubmit = ({email, password}) => {
+    //     const result = authApi.login(email, password);
+    //     console.log(result);
+    //     if(!result.ok) return setLoginFailed(true);
+    //     setLoginFailed(false);
+    //     logIn(result.data)
+    // }
 
     return (
         <Screen style={styles.container}>
