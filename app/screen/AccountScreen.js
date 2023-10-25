@@ -9,21 +9,21 @@ import ListItemSeparator from '../components/lists/ListItemSeparator';
 import useAuth from '../auth/useAuth';
 
 const menuItems = [
-    {
-        title: 'My Listings',
-        icon: {
-            name: 'format-list-bulleted',
-            backgroundColor: colors.primary
-        }
-    },
-    {
-        title: 'My Messages',
-        icon: {
-            name: 'email',
-            backgroundColor: colors.secondary
-        },
-        targetScreen: 'Messages'
-    }
+    // {
+    //     title: 'My Listings',
+    //     icon: {
+    //         name: 'format-list-bulleted',
+    //         backgroundColor: colors.primary
+    //     }
+    // },
+    // {
+    //     title: 'My Messages',
+    //     icon: {
+    //         name: 'email',
+    //         backgroundColor: colors.secondary
+    //     },
+    //     targetScreen: 'Messages'
+    // }
 ]
 
 function AccountScreen({navigation}) {
@@ -32,8 +32,8 @@ function AccountScreen({navigation}) {
         <Screen style={styles.screen}>
             <View style={styles.container}>
                 <ListItem 
-                    title='Mosh Hamedani'
-                    subTitle='programmingwithmosh@gmail.com'
+                    title='Test Adams'
+                    subTitle='test@gmail.com'
                     image={require('../assets/mosh.jpg')}
                 />
             </View>
