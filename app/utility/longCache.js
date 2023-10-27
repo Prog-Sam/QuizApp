@@ -1,14 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from 'moment';
 
-const prefix = 'cache';
-const expiryInMinutes = 5;
-
-const isExpired = item => {
-    const now = moment(Date.now());
-    const storedTime = moment(item.timestamp);
-    return now.diff(storedTime, 'minutes') > expiryInMinutes;
-}
+const prefix = 'longCache';
 
 const store = async (key, value) => {
     try {
@@ -17,8 +10,10 @@ const store = async (key, value) => {
             timestamp: Date.now()
         }
         await AsyncStorage.setItem(prefix+key, JSON.stringify(item));
+        return {data: value, ok: true}
     } catch (ex) {
         console.log(ex);
+        return {data: ex, ok: false }
     }
 }
 
@@ -29,23 +24,20 @@ const get = async (key) => {
 
         if(!item) return null;
 
-        if (isExpired(item)) {
-            await AsyncStorage.removeItem(prefix+key);
-            return null;
-        }
-
-        return item.value;
+        return {data: item.value, ok: true}
     } catch (ex) {
         console.log(ex);
+        return {data: ex, ok: false};
     }
 }
 
 const remove = async (key) => {
     try {
         await AsyncStorage.removeItem(prefix+key);
-        return {status: 200, message: 'Item Removed from storage.'}
+        return {ok: true, data: 'Item Removed from storage.'}
     } catch (ex) {
         console.log(ex);
+        return {ok: false, data: 'Item not removed'}
     }
 }
 
