@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, View, Alert} from 'react-native';
+import _ from 'lodash';
 
 import Screen from '../components/Screen';
 import ListItem from '../components/lists/ListItem';
@@ -7,25 +8,16 @@ import ListItemSeparator from '../components/lists/ListItemSeparator';
 import { getQuizBundles} from '../service/FakeQuizBundleService'
 import Icon from '../components/Icon';
 import colors from '../config/colors';
+import useAuth from '../auth/useAuth';
+import useQuizSession from '../quizSession/useQuizSession';
+import routes from '../navigation/routes';
+import { getLocalQuizSession } from '../quizSession/storage';
 
-// const Quizes = [
-//     {
-//         id: 1,
-//         title: 't1 asdfadsfadsfadsighapsjmbtpppawegpuotgwqu9j0g6wug6qug6u9j-u90ju9jmq43ubqu m409u3590yu390yh35 -95hj  3ogb h3wahy3wpo jhqgh-w3 ]h5j h--]h 4w-]',
-//         description: 'sadf;aj sdfj asd;j fasd;jfoja sdopjgawe-r po]sjdgvoj [woaej gf[vo aj[r ]gja]opj gopawj gjpo ajwr]gj awr]g jap]wje gvpo]ajwwwwwwwwwwwwwwwwwga]wporjgp]oajw e]gp awpoegj] aw]errrrrrrrrrrrrrrrrrrgvp[oj wapogj apwog pj',
-//         image: require('../assets/mosh.jpg')
-//     },
-//     {
-//         id: 2,
-//         title: 't2',
-//         description: 'd2',
-//         image: require('../assets/mosh.jpg')
-//     }
-// ]
-
-function QuizesScreen(props) {
+function QuizesScreen({navigation}) {
     const [quizes, setQuizes] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
+    const {user} = useAuth();
+    const {startQuiz, endQuiz} = useQuizSession();
 
     const populateQuizes = () =>  {
         setQuizes(getQuizBundles({includeQuizes:true}))
@@ -33,11 +25,18 @@ function QuizesScreen(props) {
 
     useEffect(() => {
         populateQuizes();
+        endQuiz();
     },[])
+
+    const handleProceed = async (item) => {
+        startQuiz(item.id);
+        navigation.navigate(routes.QUIZ)
+
+    }
 
     const handlePress = (item) => {
          Alert.alert('Confirmation', 'Are you ready to take this quiz?', [
-            {text: 'Yes', onPress: () => console.log(item)},
+            {text: 'Yes', onPress: () => handleProceed(item)},
             {text: 'No'}
     ])
 }
