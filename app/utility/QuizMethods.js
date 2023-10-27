@@ -21,3 +21,9 @@ export const pickAnswer = (answer, id, answerArray) => {
 
     return newAnswerArray;
 }
+
+export const allQuestionsAnswered = (answerArray=[]) => {
+    for(let i = 0; i < answerArray.length; i++)
+        if(answerArray[i].currentAnswer == null) return {ok: false, message:`Please answer question ${i+1}`};
+    return {ok: true, message: 'All questions answered.'}
+}
