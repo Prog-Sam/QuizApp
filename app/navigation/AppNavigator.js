@@ -4,8 +4,9 @@ import {MaterialCommunityIcons} from '@expo/vector-icons'
 
 import AccountScreen from '../screen/AccountScreen';
 import routes from './routes';
-import QuizesScreen from '../screen/QuizesScreen';
 import DashboardNavigator from './DashboardNavigator';
+import QuizNavigator from './QuizNavigator';
+import QuizScreen from '../screen/QuizScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -19,8 +20,8 @@ const AppNavigator = () => (
             }}
         />
         <Tab.Screen     
-            name={routes.QUIZES} 
-            component={QuizesScreen} 
+            name='Quiz'
+            component={QuizNavigator} 
             options={{
                 tabBarIcon: ({color, size}) => <MaterialCommunityIcons name='play-circle' color={color} size={size} />
             }}
