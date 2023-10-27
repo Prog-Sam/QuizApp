@@ -6,5 +6,7 @@ export default Object.freeze({
   LOGIN: "Login",
   MESSAGES: "Messages",
   REGISTER: "Register",
-  QUIZES: 'Quizes'
+  QUIZES: 'Quizes',
+  QUIZ: 'Quiz',
+  VIDEO: 'Video'
 });
