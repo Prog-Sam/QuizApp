@@ -1,6 +1,7 @@
 export const generateAnswerArray = (items, quizSession) => {
     let answerArray = [];
-    for(let i = 0; i < items.length; i++)
+    if(quizSession) {
+        for(let i = 0; i < items.length; i++)
         answerArray.push({
             id: i,
             quizSessionuizSessionId: quizSession.id,
@@ -8,6 +9,7 @@ export const generateAnswerArray = (items, quizSession) => {
             itemId: items[i].id,
             currentAnswer: null
         })
+    }
 
     return answerArray;
 }
