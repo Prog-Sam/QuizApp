@@ -33,6 +33,13 @@ export default useQuizSession = () => {
         setQuizSession(localQuizSession);
     }
 
+    const saveAnswers = async (answerArray, state) => {
+        const quizIdentifier = state === 1 ? 'PreQuizAnswers' : 'PostQuizAnswers';
+        const localQuizSession = {...await getLocalQuizSession(user.userId), [quizIdentifier]: [...answerArray]};
+        await storeLocalQuizSession(localQuizSession);
+        setQuizSession(localQuizSession);
+    }
+
     const endQuiz = async () => {
         const localQuizSession = await getLocalQuizSession(user.userId);
         await (removeLocalQuizSession(user.userId))
@@ -40,5 +47,5 @@ export default useQuizSession = () => {
         console.log('Finished');
     }
 
-    return {quizSession, startQuiz, proceedQuiz, endQuiz, setQuizSession}
+    return {quizSession, saveAnswers, startQuiz, proceedQuiz, endQuiz, setQuizSession}
 }
