@@ -1,49 +1,56 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import * as Yup from 'yup';
 
 import QuizForm from '../components/forms/QuizForm';
-import Screen from '../components/Screen';
 import { generateAnswerArray } from '../utility/QuizMethods';
 import { getItems } from '../service/FakeItemService';
 import { getQuizSession } from '../service/FakeQuizSession';
 import { Form, SubmitButton } from '../components/forms';
-
+import { getLocalQuizSession } from '../quizSession/storage';
+import useAuth from '../auth/useAuth';
+import useQuizSession from '../quizSession/useQuizSession';
+import routes from '../navigation/routes';
+import { getQuizBundle } from '../service/FakeQuizBundleService';
 
 const validationSchema = Yup.object().shape({
     UserAnswers: Yup.array().min(1, 'Please add at least one question')
 });
 
-function QuizScreen({quizSessionId = 1, quizId = 1}) {
+function QuizScreen({quizSessionId = 1, quizId = 1, navigation}) {
     const [questions, setQuestions] = useState([]);
-    const [quizSession, setQuizSession] = useState([]);
+    const [answerArray, setAnswerArray] = useState([]);
 
-    // const { logIn } = useAuth();
-    // const [loginFailed, setLoginFailed] = useState(false);
+    const {quizSession} = useQuizSession();
 
-    const populateQuestions = () => {
-        setQuestions(getItems({quizId}));
-    }
+    const populateQuestions = async () => {
+        const quizBundle = await getQuizBundle(quizSession.quizBundleId);
 
-    const populateQuizSession = () => {
-        setQuizSession(getQuizSession(quizSessionId));
+        const quizId = quizSession.state == 1 ? 
+            quizBundle.preQuizId : quizBundle.postQuizId;
+        
+        const localQuestions = getItems({quizId});
+        setQuestions(localQuestions);
+        console.log([...generateAnswerArray(localQuestions,quizSession)]);
+        setAnswerArray([...generateAnswerArray(localQuestions,quizSession)])
     }
 
     useEffect(() => {
-        populateQuestions();
-        populateQuizSession();
-    },[])
+        if(quizSession) populateQuestions();
+    },[quizSession])
 
     const handleSubmit = async (value) => {
         console.log(value);
+        setAnswerArray([]);
+        navigation.navigate(routes.QUIZES)
     }
 
     return (
-        <Screen style={styles.container}>
-            {questions.length > 0 && (
+        <ScrollView style={styles.container}>
+            {(questions.length > 0 && answerArray.length > 0) && (
                 <Form
                     initialValues={{
-                        UserAnswers: [...generateAnswerArray(questions,quizSession)]
+                        UserAnswers: [...answerArray]
                     }}
                     onSubmit={values => handleSubmit(values)}
                     validationSchema={validationSchema}
@@ -51,14 +58,14 @@ function QuizScreen({quizSessionId = 1, quizId = 1}) {
                     <QuizForm 
                         questions={questions}
                         quizSession={quizSession}
-                        answers={generateAnswerArray(questions,quizSession)}
+                        answers={answerArray}
                         name='UserAnswers'
                         mode='test'
                     />
                     <SubmitButton title='Fininsh' />
                 </Form>)
             }
-        </Screen>
+        </ScrollView>
     );
 }
 
