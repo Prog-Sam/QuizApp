@@ -6,6 +6,7 @@ import QuizesScreen from '../screen/QuizesScreen';
 import QuizScreen from '../screen/QuizScreen';
 import useQuizSession from '../quizSession/useQuizSession';
 import quizState from '../config/quizState';
+import VideoScreen from '../screen/VideoScreen';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ const QuizNavigator = () => {
     return (
         <Stack.Navigator initialRouteName={initialRouteName}>
             <Stack.Screen name={routes.QUIZES} component={QuizesScreen} />
+            <Stack.Screen name={routes.VIDEO} component={VideoScreen} />
             <Stack.Screen name={routes.QUIZ} component={QuizScreen} options={
                 {headerShown: false}
             }/>
