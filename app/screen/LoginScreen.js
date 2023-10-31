@@ -3,13 +3,13 @@ import { StyleSheet, Image } from 'react-native';
 import * as Yup from 'yup';
 
 import {Form, FormField, SubmitButton, ErrorMessage} from '../components/forms';
-import authApi from '../api/auth';
+import authApi from '../api/auth2';
 // import authApi from '../api/fakeAuth';
 import useAuth from '../auth/useAuth';
 import Screen from '../components/Screen';;
 
 const validationSchema = Yup.object().shape({
-    email: Yup.string().required().email().label('Email'),
+    username: Yup.string().required().label('Username'),
     password: Yup.string().required().min(4).label('Password')
 });
 
@@ -17,21 +17,21 @@ function LoginScreen(props) {
     const { logIn } = useAuth();
     const [loginFailed, setLoginFailed] = useState(false);
 
-    const handleSubmit = async ({email, password}) => {
-        const result = await authApi.login(email, password);
-        console.log(result);
-        if(!result.ok) return setLoginFailed(true);
-        setLoginFailed(false);
-        logIn(result.data)
-    }
-
-    // const handleSubmit = ({email, password}) => {
-    //     const result = authApi.login(email, password);
+    // const handleSubmit = async ({email, password}) => {
+    //     const result = await authApi.login(email, password);
     //     console.log(result);
     //     if(!result.ok) return setLoginFailed(true);
     //     setLoginFailed(false);
     //     logIn(result.data)
     // }
+
+    const handleSubmit = async ({username, password}) => {
+        const result = await authApi.login(username, password);
+        console.log(result.data);
+        if(!result.ok) return setLoginFailed(true);
+        setLoginFailed(false);
+        // logIn(result.data)
+    }
 
     return (
         <Screen style={styles.container}>
@@ -39,19 +39,18 @@ function LoginScreen(props) {
                 source={require('../assets/app_logo_black.png')}
                 style={styles.logo} 
             />
-            <ErrorMessage error='Invalid email and/or password.' visible={loginFailed} />
+            <ErrorMessage error='Invalid username and/or password.' visible={loginFailed} />
             <Form
-                initialValues={{email: '', password: ''}}
+                initialValues={{username: '', password: ''}}
                 onSubmit={values => handleSubmit(values)}
                 validationSchema={validationSchema}
             >
                 <FormField
                     autoCapitalize='none'
-                    icon='email'
+                    icon='account'
                     keyboardType='email-address'
-                    name='email'
-                    placeholder='Email'
-                    textContentType='emailAddress'
+                    name='username'
+                    placeholder='Username'
                />
                <FormField
                     autoCapitalize='none'

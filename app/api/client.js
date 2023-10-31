@@ -4,7 +4,7 @@ import cache from "../utility/cache";
 import authStorage from "../auth/storage";
 
 const apiClient = create({
-    baseURL: 'https://blaanfoklore.com/public/api'
+    baseURL: 'https://blaanfolklore.com/public/api'
 });
 
 apiClient.addAsyncRequestTransform(async request => {
