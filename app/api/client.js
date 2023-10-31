@@ -4,7 +4,7 @@ import cache from "../utility/cache";
 import authStorage from "../auth/storage";
 
 const apiClient = create({
-    baseURL: 'http://192.168.137.71:9000/api'
+    baseURL: 'https://blaanfoklore.com/public/api'
 });
 
 apiClient.addAsyncRequestTransform(async request => {
