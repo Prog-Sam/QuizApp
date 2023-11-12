@@ -16,7 +16,7 @@ const DashboardNavigator = () => (
             name={routes.HISTORY_ITEM}
             component={HistoryItemScreen} 
             options={({route}) => ({
-                    title: `${route.params.QuizSession.QuizBundle.title} - ${route.params.QuizSession.iat}`
+                    title: `${route.params.quizSessionBundle.tsc_number} - ${route.params.quizSessionBundle.tsc_iat}`
                 }
             )}
         />

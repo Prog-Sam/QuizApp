@@ -1,0 +1,1 @@
+export const getAssetUri = (uri) => `https://blaanfolklore.com/public/${uri}`

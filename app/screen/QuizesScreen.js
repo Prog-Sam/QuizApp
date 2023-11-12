@@ -12,26 +12,32 @@ import useAuth from '../auth/useAuth';
 import useQuizSession from '../quizSession/useQuizSession';
 import routes from '../navigation/routes';
 import { getLocalQuizSession } from '../quizSession/storage';
+import storyContentApi from '../api/storyContent';
+import quizApi from '../api/quiz';
 
 function QuizesScreen({navigation}) {
     const [quizes, setQuizes] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
-    const {user} = useAuth();
     const {startQuiz, endQuiz} = useQuizSession();
+    const {user} = useAuth();
 
-    const populateQuizes = () =>  {
-        setQuizes(getQuizBundles({includeQuizes:true}))
+    const populateQuizes = async () =>  {
+        const {data} = await storyContentApi.getStoryContents(user.ta_username);
+        setQuizes(data);
     }
-
+    
     useEffect(() => {
         populateQuizes();
         endQuiz();
     },[])
-
+    
     const handleProceed = async (item) => {
-        startQuiz(item.id);
-        navigation.navigate(routes.QUIZ)
+        const {data} = await quizApi.getQuizes(item.tsc_number);
 
+        if(!data) return Alert.alert('Cannot Proceed!', 'Quiz has no questions as of the moment.')
+        
+        startQuiz(item.tsc_number);
+        navigation.navigate(routes.QUIZ)
     }
 
     const handlePress = (item) => {
@@ -46,11 +52,11 @@ function QuizesScreen({navigation}) {
         <Screen>
                 <FlatList 
                     data={quizes}
-                    keyExtractor={quizes => quizes.id.toString()}
+                    keyExtractor={quizes => quizes.tsc_id.toString()}
                     renderItem={({item}) => (
                         <ListItem 
-                            title={item.title}
-                            subTitle={`Difficulty Level: ${item.PreQuiz.difficulty} => ${item.PostQuiz.difficulty}`}
+                            title={item.tsc_content}
+                            subTitle={`Story Number: ${item.tsc_number}`}
                             IconComponent={<Icon 
                                 name='book' 
                                 iconColor={colors.white} 

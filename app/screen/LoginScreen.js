@@ -27,10 +27,11 @@ function LoginScreen(props) {
 
     const handleSubmit = async ({username, password}) => {
         const result = await authApi.login(username, password);
-        console.log(result.data);
         if(!result.ok) return setLoginFailed(true);
         setLoginFailed(false);
-        // logIn(result.data)
+        if(result.data.L_BIT == '0')
+        return setLoginFailed(true);
+        logIn(username)
     }
 
     return (

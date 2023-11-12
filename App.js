@@ -12,9 +12,12 @@ import AuthContext from './app/auth/context';
 import NavigationTheme from './app/navigation/NavigationTheme';
 import OfflineNotice from './app/components/OfflineNotice';
 import QuizSessionContext from './app/quizSession/context';
-import quizSessionStorage from './app/quizSession/storage'
+import quizSessionStorage, { removeLocalQuizSession } from './app/quizSession/storage'
 import Screen from './app/components/Screen';
 import VideoScreen from './app/screen/VideoScreen';
+import LoginScreen from './app/screen/LoginScreen';
+import useQuizSession from './app/quizSession/useQuizSession';
+import HistoryItemScreen from './app/screen/HistoryItemScreen';
 
 export default function App() {
   const [user, setUser] = useState();
@@ -27,8 +30,9 @@ export default function App() {
     if(user) {
       setUser(user);
 
-      console.log(user);
-      const localQuizSession = await quizSessionStorage.getLocalQuizSession(user.userId);
+      console.log('restore state user',user);
+      const localQuizSession = await quizSessionStorage.getLocalQuizSession(user.ta_id);
+      console.log('restore state localQuizSession',localQuizSession);
       setQuizSession(localQuizSession);
     }
   }
@@ -51,7 +55,9 @@ export default function App() {
             {/* <Screen><VideoScreen /></Screen> */}
             {/* <QuizScreen/> */}
             {/* <QuestionItemCard onPress={(item) => console.log(item)}/> */}
+            {/* <LoginScreen /> */}
             {user ? <Screen><AppNavigator /></Screen> : <AuthNavigator /> }
+            {/* <HistoryItemScreen />r */}
           </NavigationContainer>
         </QuizSessionContext.Provider>
       </AuthContext.Provider>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
 import moment from 'moment';
 
@@ -10,61 +10,64 @@ import ListItemSeparator from '../components/lists/ListItemSeparator';
 import routes from '../navigation/routes';
 import useAuth from '../auth/useAuth';
 import Text from '../components/Text';
-
-const results = [
-    {
-        id: 1,
-        quizSessionId: 1,
-        userId: 3,
-        score: 2,
-        QuizSession: {
-            id: 1,
-            userId: 3,
-            quizBundleId: 1,
-            iat: Date.now(),
-            QuizBundle: {
-                id: 1,
-                title: 'Test 1',
-                preQuizId: 1,
-                url: 'Some Video URL',
-                postQuizId: 2
-            }
-        },
-        User: {
-            id: 3,
-            name: 'firesam',
-            email: 'firesam@gmail.com',
-        }
-    },
-]
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import useSubmissionQueue from '../submissionQueue/useSubmissionQueue';
+import quizSessionApi from '../api/quizSession';
+import { generateQuizSessionBundle } from '../utility/SubmissionMethods';
+import _ from 'lodash';
+import { getAssetUri } from '../api/asset';
 
 function DashboardScreen({navigation}) {
-    const {user, logOut} = useAuth();
+    const [quizSessions, setQuizSessions] = useState([]);
+    const {user} = useAuth();
+
+    const {submitToServer} = useSubmissionQueue();
+
+    const handleRefresh = async () => {
+        await submitToServer();
+        const {data, ok} = await quizSessionApi.getQuizSession(user.ta_username);
+        if(!ok) setQuizSessions([]);
+        setQuizSessions(_.reverse(data));
+    }
+
+    const handleProceed = async (quizSession) => {
+        // console.log(quizSession);
+        const item = await generateQuizSessionBundle(quizSession);
+
+        navigation.navigate(routes.HISTORY_ITEM, {quizSessionBundle: item})
+    }
 
     return (
         <Screen style={styles.screen}>
             <View style={styles.container}>
                 <ListItem 
-                    title={`Welcome ${user.name}!`}
+                    title={`Welcome ${user.FULLNAME}!`}
                     subTitle={`What's new today?`}
-                    image={require('../assets/mosh.jpg')}
+                    image={{
+                        uri: getAssetUri(user.image_path)
+                    }}
                 />
             </View>
             <View style={styles.container}>
-                <Text style={styles.text}>HISTORY</Text>
+                <View style={styles.heading}>
+                    <Text style={styles.text}>HISTORY</Text>
+                    <TouchableOpacity style={styles.refresh} onPress={handleRefresh}>
+                        <Icon name='refresh' backgroundColor={colors.primary} />
+                    </TouchableOpacity>
+                </View>
                 <FlatList 
-                    data={results}
+                    data={quizSessions}
                     keyExtractor={(item) => item.id}
                     renderItem={({item}) => (
                         <ListItem 
-                            title={item.QuizSession.QuizBundle.title} 
-                            subTitle={`Taken at: ${moment(item.QuizSession.iat).toString()}`}
+                            title={item.tsc_number} 
+                            subTitle={`IAT: ${item.tsc_iat}`}
                             IconComponent={<Icon 
                                     name='file-check'
                                     backgroundColor={colors.primary}
                                 />
                             } 
-                            onPress={() => navigation.navigate(routes.HISTORY_ITEM, item)}
+                            onPress={() => handleProceed(item)}
                         />
                     )}
                     ItemSeparatorComponent={ListItemSeparator}
@@ -83,6 +86,13 @@ const styles = StyleSheet.create({
     },
     text: {
         paddingLeft: 10
+    },
+    heading: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    refresh: {
+        paddingRight: 10
     }
 })
 

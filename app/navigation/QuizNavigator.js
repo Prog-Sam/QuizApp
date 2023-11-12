@@ -7,6 +7,7 @@ import QuizScreen from '../screen/QuizScreen';
 import useQuizSession from '../quizSession/useQuizSession';
 import quizState from '../config/quizState';
 import VideoScreen from '../screen/VideoScreen';
+import HistoryItemScreen from '../screen/HistoryItemScreen';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,9 @@ const QuizNavigator = () => {
             <Stack.Screen name={routes.QUIZES} component={QuizesScreen} />
             <Stack.Screen name={routes.VIDEO} component={VideoScreen} />
             <Stack.Screen name={routes.QUIZ} component={QuizScreen} options={
+                {headerShown: false}
+            }/>
+            <Stack.Screen name={routes.HISTORY_ITEM} component={HistoryItemScreen} options={
                 {headerShown: false}
             }/>
         </Stack.Navigator>

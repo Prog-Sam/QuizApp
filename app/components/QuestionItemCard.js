@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 
 import { ListItemSeparator } from './lists';
@@ -8,45 +8,44 @@ import AnswerCard from './AnswerCard';
 import Button from './Button';
 import Icon from './Icon';
 
-const generateChoices = (choicesString) => {
-    let stringChoiceArray = choicesString.split('|');
-    let choiceArray = [];
-    for(let i=0; i < stringChoiceArray.length; i++){
-        choiceArray.push({
-            index: i,
-            value: stringChoiceArray[i]
-        });
-    }
-    return choiceArray;
-}
+// const generateChoices = (choicesString) => {
+    //     let stringChoiceArray = choicesString.split('|');
+    //     let choiceArray = [];
+    //     for(let i=0; i < stringChoiceArray.length; i++){
+        //         choiceArray.push({
+            //             index: i,
+//             value: stringChoiceArray[i]
+//         });
+//     }
+//     return choiceArray;
+// }
+    
+function QuestionItemCard({questionItem={}, choiceArray=[] , onPress, onBack, onProceed, currentAnswer=null}) {
+    const {tq_question='question'} = questionItem;
 
-function QuestionItemCard({questionItem={}, onPress, onBack, onProceed, currentAnswer=null}) {
-
-    const {question='question', choices='a1|a2|a3|a4'} = questionItem;
-
-    const getAnswerStyle = (index) => {
-        if(index == currentAnswer) return colors.secondary;
+    const getAnswerStyle = (value) => {
+        if(value == currentAnswer) return colors.secondary;
         return colors.black;
     }
-
+    
     return (
         <View style={styles.container}>
             <View style={styles.questionContainer}>
-                <Text style={[styles.text]}>{question}</Text>
+                <Text style={[styles.text]}>{tq_question}</Text>
             </View>
             <View style={styles.answerContainer}>
                 <FlatList
-                    data={generateChoices(choices)}
+                    data={choiceArray}
                     ItemSeparatorComponent={<ListItemSeparator />}
                     keyExtractor={(item) => item.index.toString()}
                     renderItem={({item}) => (
                         <AnswerCard 
-                            index={item.index}
-                            value={item.value}
+                        index={item.index}
+                        value={item.value}
                             onPress={() => onPress(item)}
                             style={styles.answers}
-                            borderColor={getAnswerStyle(item.index)}
-                            color={getAnswerStyle(item.index)}
+                            borderColor={getAnswerStyle(item.value)}
+                            color={getAnswerStyle(item.value)}
                         />
                     )}
                 />

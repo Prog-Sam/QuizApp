@@ -7,6 +7,7 @@ import colors from '../config/colors';
 import Icon from '../components/Icon';
 import ListItemSeparator from '../components/lists/ListItemSeparator';
 import useAuth from '../auth/useAuth';
+import { getAssetUri } from '../api/asset';
 
 const menuItems = [
     // {
@@ -27,14 +28,18 @@ const menuItems = [
 ]
 
 function AccountScreen({navigation}) {
-    const {logOut} = useAuth();
+    const {logOut, user} = useAuth();
+
+    console.log(user);
     return (
         <Screen style={styles.screen}>
             <View style={styles.container}>
                 <ListItem 
-                    title='Test Adams'
-                    subTitle='test@gmail.com'
-                    image={require('../assets/mosh.jpg')}
+                    title={user.FULLNAME}
+                    subTitle={user.ta_username}
+                    image={{
+                        uri: getAssetUri(user.image_path)
+                    }}
                 />
             </View>
             <View style={styles.container}>

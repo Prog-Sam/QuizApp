@@ -1,5 +1,4 @@
 import { useContext } from "react"
-import jwtDecode from "jwt-decode"
 import moment from "moment"
 
 import useAuth from "../auth/useAuth"
@@ -11,38 +10,42 @@ export default useQuizSession = () => {
 
     const {user} = useAuth();
 
-    const newLocalQuizSession = (quizBundleId) => {
+    const newLocalQuizSession = (tsc_number) => {
         const iat = Date.now();
+
         return {
-            id: moment(iat).format('YYYYMMDDHHmmss').toString(),
-            userId: user.userId,
-            quizBundleId,
-            iat,
-            state:1
+            id: moment(Date.now()).format('YYYYMMDDHHmmss').toString(),
+            ta_id: user.ta_id,
+            tsc_number: tsc_number,
+            tsc_iat: moment(Date.now()).format('YYYYMMDDHHmmss').toString(),
+            ta_username: user.ta_username,
+            tr_id: user.tr_id,
+            ta_status: user.ta_status,
+            state: 1
         }
     }
 
-    const startQuiz = async ( quizBundleId) => {
-        const localQuizSession = await storeLocalQuizSession(newLocalQuizSession(quizBundleId));
+    const startQuiz = async ( tsc_number) => {
+        const localQuizSession = await storeLocalQuizSession(newLocalQuizSession(tsc_number));
         setQuizSession(localQuizSession);
-
     }
 
     const proceedQuiz = async () => {
-        const localQuizSession = await proceedQuizState(user.userId);
+        const localQuizSession = await proceedQuizState(user.ta_id);
         setQuizSession(localQuizSession);
     }
 
     const saveAnswers = async (answerArray, state) => {
         const quizIdentifier = state === 1 ? 'PreQuizAnswers' : 'PostQuizAnswers';
-        const localQuizSession = {...await getLocalQuizSession(user.userId), [quizIdentifier]: [...answerArray]};
+        const localQuizSession = {...await getLocalQuizSession(user.ta_id), [quizIdentifier]: [...answerArray]};
         await storeLocalQuizSession(localQuizSession);
+        console.log(localQuizSession);
         setQuizSession(localQuizSession);
     }
 
     const endQuiz = async () => {
-        const localQuizSession = await getLocalQuizSession(user.userId);
-        await (removeLocalQuizSession(user.userId))
+        const localQuizSession = await getLocalQuizSession(user.ta_id);
+        await (removeLocalQuizSession(user.ta_id))
         setQuizSession(null);
         console.log('Finished');
     }

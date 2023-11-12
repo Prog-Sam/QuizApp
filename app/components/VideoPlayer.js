@@ -3,7 +3,7 @@ import { View, StyleSheet, Button } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
 import { useDeviceOrientation } from '@react-native-community/hooks'; 
 
-function VideoPlayer(props) {
+function VideoPlayer({uri}) {
     const video = React.useRef(null);
     const [status, setStatus] = React.useState({});
     const isLandscape = useDeviceOrientation() == 'landscape';
@@ -17,7 +17,7 @@ function VideoPlayer(props) {
                     height: isLandscape ? '100%' : '30%',
                 }}
                 source={{
-                uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+                uri: uri||'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
                 }}
                 useNativeControls
                 resizeMode={ResizeMode.CONTAIN}
